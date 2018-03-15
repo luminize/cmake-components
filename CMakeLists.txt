@@ -52,3 +52,11 @@ add_library(control_component SHARED
 target_link_libraries(control_component
   machinekit
 )
+
+add_library(control_component2 SHARED
+  control_component2.cpp
+)
+target_link_libraries(control_component2
+  machinekit
+)
+
