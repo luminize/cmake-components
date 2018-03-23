@@ -81,7 +81,7 @@ int ControlComponent2::export_controlcomponent2(struct inst_data *ip, const char
     return retval;
 }
 
-void ControlComponent2::dummy_funct(void *arg, long period)
+extern "C" void ControlComponent2::dummy_funct(void *arg, long period)
 {
     struct inst_data *ip  = (inst_data *) arg;
     *(ip->out) = *(ip->value);

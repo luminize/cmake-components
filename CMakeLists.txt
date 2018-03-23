@@ -1,17 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(machinekit_ros_control)
+project(cmake-component)
 
 # C++ 11
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS} -DRTAPI -DRTAPI_FLAVOR_ID=1 -DTHREAD_FLAVOR_ID=1")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
-find_package(Gflags REQUIRED)
+#find_package(Gflags REQUIRED)
 
 # add machinekit interface target
 set(MACHINEKIT_RIP_PATH "~/projects/machinekit" CACHE STRING "")
-set(MACHINEKIT_INCLUDE_PATHS ${MACHINEKIT_RIP_PATH}/include /usr/include/linuxcnc)
+set(MACHINEKIT_INCLUDE_PATHS ${MACHINEKIT_RIP_PATH}/include)
 set(MACHINEKIT_LIB_PATH ${MACHINEKIT_RIP_PATH}/lib)
 
 add_library(machinekit INTERFACE)
@@ -30,7 +29,8 @@ endif()
 include_directories(SYSTEM)
 
 include_directories(
-  ./
+  /home/bas/projects/machinekit/include
+  ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # Machinekit libraries
@@ -46,17 +46,34 @@ include_directories(
 #)
 
 # Machinekit rt component
-add_library(control_component SHARED
-  control_component.cpp
-)
-target_link_libraries(control_component
-  machinekit
-)
+#add_library(control_component SHARED
+#  control_component.cpp
+#)
+#target_link_libraries(control_component
+#  machinekit
+#)
 
 add_library(control_component2 SHARED
   control_component2.cpp
 )
 target_link_libraries(control_component2
   machinekit
+  #lcnc
+  #lcnchal
+)
+
+# Main executable
+add_executable(create_comp create_comp.cpp)
+target_link_libraries(create_comp
+  control_component2
+  #lcnc
+  #lcnchal
+)
+
+add_executable(cb callbacks.cpp)
+target_link_libraries(cb
+  #control_component22
+  #lcnc
+  #lcnchal
 )
 

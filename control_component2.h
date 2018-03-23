@@ -58,10 +58,10 @@ class ControlComponent2
 public:
     ControlComponent2();
     ~ControlComponent2();
-    
+
     static int export_controlcomponent2(struct inst_data *ip, const char *name);
     static void dummy_funct(void *arg, long period);
-
+    
     struct inst_data *inst;
     static int comp_id;
     const char *cname;
