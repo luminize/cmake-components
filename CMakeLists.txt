@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(cmake-component)
 
 # C++ 11
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS} -DRTAPI -DRTAPI_FLAVOR_ID=1 -DTHREAD_FLAVOR_ID=1")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
 
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
@@ -30,7 +30,8 @@ include_directories(SYSTEM)
 
 include_directories(
   /home/bas/projects/machinekit/include
-  ${CMAKE_CURRENT_BINARY_DIR}
+  /usr/include/linuxcnc
+  ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Machinekit libraries
@@ -61,19 +62,29 @@ target_link_libraries(control_component2
   #lcnc
   #lcnchal
 )
+target_compile_definitions(control_component2 PRIVATE
+  RTAPI=1
+  THREAD_FLAVOR_ID=1
+  )
+set_target_properties(
+  control_component2 PROPERTIES
+  PREFIX "" # Remove 'lib' prefix from comp name
+  )
 
-# Main executable
-add_executable(create_comp create_comp.cpp)
-target_link_libraries(create_comp
-  control_component2
-  #lcnc
-  #lcnchal
-)
 
-add_executable(cb callbacks.cpp)
-target_link_libraries(cb
-  #control_component22
-  #lcnc
-  #lcnchal
-)
+# # Main executable
+# add_executable(create_comp create_comp.cpp)
+# target_link_libraries(create_comp
+#   control_component2
+#   linuxcnchal
+#   #lcnc
+#   #lcnchal
+# )
+
+# add_executable(cb callbacks.cpp)
+# target_link_libraries(cb
+#   #control_component22
+#   #lcnc
+#   #lcnchal
+# )
 

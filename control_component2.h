@@ -20,12 +20,12 @@
 #include <stdint.h>   /* Standard types */
 
 #include <rtapi.h>
-#include "rtapi_app.h"
-#include "rtapi_string.h"
+#include <rtapi_app.h>
+#include <rtapi_string.h>
 #include <hal.h>
 #include <hal_priv.h>
 #include <hal_accessor.h>
-#include "hal_internal.h"
+#include <hal_internal.h>
 
 // Can't rely on bool working otherwise
 #undef TRUE

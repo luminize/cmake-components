@@ -31,10 +31,10 @@ ControlComponent2::ControlComponent2()
     cname = "control_component2";
     comp_id = hal_init(cname);
     if (comp_id < 0)
-        {
+    {
         hal_print_msg(RTAPI_MSG_DBG,"Component creation ABORTED");
         exit(-1);
-        }
+    }
     
     // allocate memory
     if ((inst = (inst_data *) hal_malloc(sizeof(inst_data))) == NULL) {
@@ -44,12 +44,12 @@ ControlComponent2::ControlComponent2()
     }
 
     // export pins and functions
-	if ((retval = export_controlcomponent2(inst, cname))) {
-	    hal_print_msg(RTAPI_MSG_ERR,
-			    "%s: ERROR: export_controlcomponent2 failed\n", cname);
-	    hal_exit(comp_id);
-	    return;
-	}
+    if ((retval = export_controlcomponent2(inst, cname))) {
+	hal_print_msg(RTAPI_MSG_ERR,
+		      "%s: ERROR: export_controlcomponent2 failed\n", cname);
+	hal_exit(comp_id);
+	return;
+    }
 
     hal_ready(comp_id);
 }
@@ -65,9 +65,9 @@ int ControlComponent2::export_controlcomponent2(struct inst_data *ip, const char
     
     // create pins
     if (((retval = hal_pin_float_newf(HAL_IN, &(ip->value), comp_id,
-                "%s.value",  name))) ||
-	    ((retval = hal_pin_float_newf(HAL_OUT, &(ip->out), comp_id,
-				    "%s.out", name))))
+				      "%s.value",  name))) ||
+	((retval = hal_pin_float_newf(HAL_OUT, &(ip->out), comp_id,
+				      "%s.out", name))))
     {
 	    return retval;
     }
