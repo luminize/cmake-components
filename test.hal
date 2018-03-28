@@ -1,0 +1,28 @@
+#!/usr/bin/halcmd -f
+#
+# Intended:  in the build directory, run
+# $ realtime start
+# $ ./test.hal
+# 
+# But:
+# $ ./test.hal 
+# stat: No such file or directory
+# ./test.hal:5: module '[...]/src/ros_control_boilerplate/../../devel/lib/hal_ros_control' not loaded
+# $ halcmd show comp
+# HAL Components:
+#     ID  Type Flags Inst Name                                      PID   State
+#     [...]
+#     78  RT            0 hal_ros_control                           RT    ready, u1:0 u2:0
+#
+# So, in this directory, run `realtime start` and then run these
+# commands manually with halcmd, ignoring above error.
+
+loadrt $(PWD)/control_component2
+loadrt threads name1=main period1=10000000
+addf control_component2.dummy_funct main
+start
+
+# Show the function is actually doing something
+show pin control_component2.out
+setp control_component2.value 42
+show pin control_component2.out
