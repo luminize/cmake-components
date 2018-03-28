@@ -9,7 +9,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 #find_package(Gflags REQUIRED)
 
 # add machinekit interface target
-set(MACHINEKIT_RIP_PATH "~/projects/machinekit" CACHE STRING "")
+set(MACHINEKIT_RIP_PATH "~/projects/machinekit-hal" CACHE STRING "")
 set(MACHINEKIT_INCLUDE_PATHS ${MACHINEKIT_RIP_PATH}/include)
 set(MACHINEKIT_LIB_PATH ${MACHINEKIT_RIP_PATH}/lib)
 
@@ -29,7 +29,7 @@ endif()
 include_directories(SYSTEM)
 
 include_directories(
-  /home/bas/projects/machinekit/include
+  /home/bas/projects/machinekit-hal/include
   ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -62,6 +62,26 @@ target_link_libraries(control_component2
   #lcnchal
 )
 
+set_target_properties(
+  control_component2 PROPERTIES
+  PREFIX "" # Remove 'lib' prefix from comp name
+)
+
+add_library(dangerous SHARED
+  bloody_dangerous_function_comp.cpp
+)
+target_link_libraries(dangerous
+  machinekit
+  #lcnc
+  #lcnchal
+)
+
+set_target_properties(
+  dangerous PROPERTIES
+  PREFIX "" # Remove 'lib' prefix from comp name
+)
+
+
 # Main executable
 add_executable(create_comp create_comp.cpp)
 target_link_libraries(create_comp
@@ -76,4 +96,9 @@ target_link_libraries(cb
   #lcnc
   #lcnchal
 )
+
+add_executable(expose_functs expose_functs.cpp)
+target_link_libraries(cb
+)
+
 
